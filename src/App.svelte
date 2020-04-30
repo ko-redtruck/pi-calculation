@@ -1,6 +1,7 @@
 
 
 <main>
+	<div class="view" style="max-height:100%;max-width:100%;">
 	 <h1>pi: {#if pi}{pi}{/if}</h1>
 	 {#if pi}
 	 <p style="color:red;">Error: {error}%</p>
@@ -15,8 +16,9 @@
 	
 	<div class="square" bind:this={canvasSquare}>
 		<div class="content">
-		    <canvas style="border: 3px red solid;width:100%;height:100%;" id="myCanvas"></canvas>
+		    <canvas width="500" height="500" style="border: 3px red solid;width:100%;height:100%;" id="myCanvas"></canvas>
 		</div>
+	</div>
 	</div>
 </main>
 
@@ -31,9 +33,9 @@
 	var ctx;
 	let sleepTime = 10;
 	let myInterval;
-	let speed = 10;
+	let speed = 5;
 	let error; 
-	let height,width;
+	let height=500,width=500;
 	let canvasSquare;
 	$: error = (Math.abs((Math.PI/pi)-1)*100).toFixed(5);
 	$: speed, changeSpeed();
@@ -91,20 +93,26 @@
 
 	onMount(() => {
 		var c = document.getElementById("myCanvas");
-		console.log(canvasSquare.clientHeight,window.innerHeight)
-		if(canvasSquare.clientHeight>window.innerHeight){
-			console.log("huge")
-			canvasSquare.style.width = String(window.innerHeight - 0.25 * window.innerHeight)+"px";
+		if(canvasSquare){
+			if(canvasSquare.scrollHeight>window.innerHeight){
+				canvasSquare.style.width = String(window.innerHeight - 0.25 * window.innerHeight)+"px";
+			}
 		}
-
-		height = c.height = c.clientWidth;
-		width = c.width = c.clientHeight;
+		
+		//height = c.height = dimensions.height +dimensions.bottom -dimensions.y;
+		height = c.height = canvasSquare.clientHeight;
+		width = c.width = canvasSquare.clientWidth;
+		if(canvasSquare.clientHeight == canvasSquare.clientWidth){
+			height = c.height = canvasSquare.clientHeight;
+			width = c.width = canvasSquare.clientWidth;	
+		}
+		
+		
 		ctx = c.getContext("2d");
 		ctx.beginPath();
 		ctx.arc(width/2, width/2, width/2, 0, 2 * Math.PI);
 		
-		//myInterval = setInterval(calculatePi, 1);     
-   
+		
 	});
 </script>
 
