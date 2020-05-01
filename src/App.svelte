@@ -3,10 +3,10 @@
 <main>
 	<div class="view" style="max-height:100%;max-width:100%;">
 	 <h1>pi: {#if pi}{pi}{/if}</h1>
-	 {#if pi}
-	 <p style="color:red;">Error: {error}%</p>
+	
+	 <p style="color:red;">Error:  {#if pi}{error}	%{/if}</p>
 	 <p style="color:green;">Total points: {totalPoints}<p>
-	 {/if}
+
 	 <button type="button" on:click="{toggleFunction}">{toggleText}</button>
 
     <div class="slidecontainer">
